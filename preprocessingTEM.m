@@ -10,7 +10,7 @@ IAdj = imadjust(I);
 % Filtering
 F = adapthisteq(IAdj,"Range","original");
 
-F = medfilt2(F,[27 27],"symmetric");
+F = medfilt2(F,[10 10],"symmetric");
 
 % show = labeloverlay(Ifilt,seg); % Change this threshold depending on material
 IAdjBW = imbinarize(F);
@@ -18,7 +18,7 @@ IAdjBW = imbinarize(F);
 SE1 = strel("disk",5);
 IAdjBWc = imdilate(IAdjBW,SE1);
 
-IAdjopen = bwareaopen(~IAdjBWc,400);
+IAdjopen = bwareaopen(~IAdjBWc,900);
 
 IAdjC = imclearborder(IAdjopen,4);
 
@@ -36,7 +36,7 @@ BW_fill_filter = imdilate(IAdjC,SE1);
 dist = bwdist(~BW_fill_filter);
 dist = imcomplement(dist);
 
-dist = imhmin(dist,3);
+dist = imhmin(dist,1);
 particleSep = watershed(dist);
 particleSep(~BW_fill_filter) = 0;
 
